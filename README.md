@@ -4,6 +4,8 @@ This app lets you demo Twilio's Programmable Messaging with some pizazz :).
 
 In the end, you'll create a live web page that reacts to incoming text messages with a fun animation on the screen. This combines Twilio's SMS product along with our serverless infrastructure to host the page.
 
+![Demo](demo.gif)
+
 ## Pre-requisites
 
 ### Twilio Account
@@ -31,7 +33,7 @@ In the service, find `Environment Variables` in the bottom-left side and set the
 
 ### Step 3: Update your Function service's dependencies.
 
-In the service, find `Dependencies` in the bottom-left side. Click `Edit` beside `twilio` and update the Version to `*`.
+In the service, find `Dependencies` in the bottom-left side. Add the following dependency:
 
 | Module              | Version |
 | :-------------------- | :----------------------------------------------------- |
@@ -56,14 +58,15 @@ We'll use a function called `setup.js` to auto-provision our Twilio account for 
 2. Set the function name here to `setup.js`. 
 3. Set the visibility by clicking beside the function name to `public`. 
 4. Copy the contents from `functions/setup.js` to this file.
-5. Click the blue `Deploy All` button in the bottom left corner.
+5. Click the blue `Save` button, then click the blue `Deploy All` button in the bottom left corner.
 6. Click on `Copy URL` near the bottom-right of the function editor.
 7. In a new tab, visit this `setup.js` URL once to run the function setup.
 
 ### Step 6: Upload `sync_token.js` and `post_magic.js`
 
-1. Follow the steps previously to add `sync_token.js` and `post_magic.js` as `public` functions to your service. It is not necessary to visit these functions from your browser as in the 6th/7th step previously. 
-2. Click the blue `Deploy All` button in the bottom left corner.
+1. Follow the steps previously to add `sync_token.js` and `post_magic.js` as `public` functions to your service. 
+2. It is not necessary to visit these functions from your browser as in the 6th/7th step previously. 
+3. Cick the blue `Deploy All` button in the bottom left corner.
 
 ## Go Live!
 
