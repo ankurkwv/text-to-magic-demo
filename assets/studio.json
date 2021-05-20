@@ -1,0 +1,135 @@
+{
+  "description": "A New Flow",
+  "states": [
+    {
+      "name": "Trigger",
+      "type": "trigger",
+      "transitions": [
+        {
+          "next": "ask_first_name",
+          "event": "incomingMessage"
+        },
+        {
+          "event": "incomingCall"
+        },
+        {
+          "event": "incomingRequest"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": 370,
+          "y": 50
+        }
+      }
+    },
+    {
+      "name": "ask_first_name",
+      "type": "send-and-wait-for-reply",
+      "transitions": [
+        {
+          "next": "set_name",
+          "event": "incomingMessage"
+        },
+        {
+          "event": "timeout"
+        },
+        {
+          "event": "deliveryFailure"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": 390,
+          "y": 230
+        },
+        "service": "{{trigger.message.InstanceSid}}",
+        "channel": "{{trigger.message.ChannelSid}}",
+        "from": "{{flow.channel.address}}",
+        "body": "Hi! Magic text bot here, welcome. Please reply with your first name to begin.",
+        "timeout": "3600"
+      }
+    },
+    {
+      "name": "set_name",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "post_magic",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "{{widgets.ask_first_name.inbound.Body}}",
+            "key": "name"
+          }
+        ],
+        "offset": {
+          "x": 400,
+          "y": 450
+        }
+      }
+    },
+    {
+      "name": "ask_more",
+      "type": "send-and-wait-for-reply",
+      "transitions": [
+        {
+          "next": "post_magic",
+          "event": "incomingMessage"
+        },
+        {
+          "event": "timeout"
+        },
+        {
+          "event": "deliveryFailure"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": 1090,
+          "y": 360
+        },
+        "service": "{{trigger.message.InstanceSid}}",
+        "channel": "{{trigger.message.ChannelSid}}",
+        "from": "{{flow.channel.address}}",
+        "body": "Nice! Thanks {{flow.variables.name}} for sending us some Twilio Magic. Reply \"MORE\" to send more!",
+        "timeout": "3600"
+      }
+    },
+    {
+      "name": "post_magic",
+      "type": "make-http-request",
+      "transitions": [
+        {
+          "next": "ask_more",
+          "event": "success"
+        },
+        {
+          "event": "failed"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": 740,
+          "y": 360
+        },
+        "method": "POST",
+        "content_type": "application/x-www-form-urlencoded;charset=utf-8",
+        "parameters": [
+          {
+            "value": "{{flow.variables.name}}",
+            "key": "name"
+          }
+        ],
+        "url": "{{setup-replace-url}}"
+      }
+    }
+  ],
+  "initial_state": "Trigger",
+  "flags": {
+    "allow_concurrent_calls": true
+  }
+}

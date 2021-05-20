@@ -1,0 +1,190 @@
+@charset "UTF-8";
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+body {
+  font-family: "Catamaran", sans-serif;
+  background: #000;
+  background-size: cover;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.magic-container {
+  position: relative;
+  width: 100%;
+  height: 90%;
+  background: #0E1229;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.magic-container #canvas {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: #0E1229;
+}
+
+.magic-container .text-instruction,
+.magic-container .goal-info {
+  font-family: "Courier New";
+  position: absolute;
+  letter-spacing: 0.5px;
+  top: 0;
+  right: 7%;
+  text-align: right;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: #ABB1CF;
+  padding: 10px 0;
+  font-size: 2em;
+  text-shadow: 0 0 10px black;
+}
+
+.magic-container .text-instruction span,
+.magic-container .goal-info span {
+  color: #DF444D;
+}
+
+.magic-container .goal-info {
+  right: auto;
+  top: auto;
+  left: 0;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  letter-spacing: 2px;
+  font-size: 2.3em;
+}
+
+.magic-container .red-stripe {
+  position: absolute;
+  width: 160px;
+  height: 20px;
+  top: 0;
+  left: 7%;
+  background: #DF444D;
+  z-index: 9999;
+}
+
+.magic-container .text-container {
+  z-index: 9999;
+}
+
+.magic-container .text-container.nomt {
+  margin-top: -50px;
+}
+
+.magic-container .text-container .circles {
+  display: flex;
+}
+
+.magic-container .text-container .circle-with-text {
+  border: 2px solid #ABB1CF;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  text-align: center;
+  margin: 5px 20px;
+  font-size: 35px;
+  line-height: 0.8;
+  padding: 100px;
+  display: flex;
+  height: 225px;
+  width: 225px;
+  color: #DFE1F0;
+  transition: all 0.5s ease;
+}
+
+.magic-container .text-container .circle-with-text.end-state {
+  margin: 5px -10px;
+}
+
+.magic-container .text-container .small {
+  color: #ABB1CF;
+  font-size: 3em;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.magic-container .text-container .large {
+  font-family: "Playfair Display", serif;
+  font-size: 7em;
+  color: #DFE1F0;
+  text-align: center;
+}
+
+.magic-container #button {
+  position: absolute;
+  background: #fff;
+  border-radius: 100%;
+  z-index: 999999;
+  width: 0;
+  height: 0;
+  padding: 0;
+  transition: all 0.5s ease;
+}
+
+.magic-container #button.end-state {
+  width: 110px;
+  height: 110px;
+  padding: 5px;
+}
+
+.magic-container .results {
+  padding: 15px;
+  background: #0E1229;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  font-size: 1.5em;
+  color: #DFE1F0;
+  z-index: 999999;
+}
+
+.magic-container .results #waiting span.red {
+  color: #DF444D;
+  text-transform: uppercase;
+  font-family: "Courier New";
+  font-weight: 900;
+  font-size: 1.2em;
+}
+
+.magic-container .results #waiting:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(4, end) 1300ms infinite;
+  animation: ellipsis steps(4, end) 1300ms infinite;
+  content: "\2026";
+  /* ascii code for the ellipsis character */
+  width: 0px;
+}
+
+@keyframes ellipsis {
+  to {
+    width: 1.25em;
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 1.25em;
+  }
+}
+
