@@ -1,7 +1,7 @@
 /* Particle Explosion by Dean Wagman https://codepen.io/deanwagman/pen/EjLBdQ */
 
 let canvas = document.querySelector("#canvas"),
-	ctx = canvas.getContext('2d');
+  ctx = canvas.getContext('2d');
 
 // Set Canvas to be window size
 canvas.width = window.innerWidth;
@@ -123,51 +123,53 @@ const frame = function () {
 
 $(document).ready(function () {
 
-	frame();
+  frame();
 
-	var shownMagics = [];
+  var shownMagics = [];
 
-	function insertMagic(magic) {
-	  if (shownMagics.indexOf(magic.index) == -1) {
-	    shownMagics.push(magic.index);
-	    cleanUpArray();
-	    initParticles(config.particleNumber, config.x, config.y);
-	    $('.circle-with-text').addClass('end-state');
-	    $('#button').addClass('end-state');
-	    $('#waiting').html('<span class="red">' + magic.data.name + '</span>' + ' sent us <span class="red">magic</span>! Who\'s next?');
-	  }
-	}
+  function insertMagic(magic) {
+    if (shownMagics.indexOf(magic.index) == -1) {
+      shownMagics.push(magic.index);
+      cleanUpArray();
+      initParticles(config.particleNumber, config.x, config.y);
+      $('.circle-with-text').addClass('end-state');
+      $('#button').addClass('end-state');
+      $('#waiting').html('<span class="red">' + magic.data.name + '</span>' + ' sent us <span class="red">magic</span>! Who\'s next?');
+    }
+  }
 
-	// Function to get Sync token from Twilio Function
+  // Function to get Sync token from Twilio Function
 
-	function getSyncToken(callback) {
-		$.getJSON('/sync_token.js')
-		.then(function (data) {
-			callback(data.token);
-		});
-	}
+  function getSyncToken(callback) {
+    $.getJSON('/sync_token.js')
+    .then(function (data) {
+      callback(data);
+    });
+  }
 
-	// Connect to Sync "MagicTexters" List
+  // Connect to Sync "MagicTexters" List
 
-	function startSync(token) {
-		var syncClient = new Twilio.Sync.Client(token);
+  function startSync(token) {
+    var syncClient = new Twilio.Sync.Client(token);
 
-	  syncClient.on('tokenAboutToExpire', function() {
-		  var token = getSyncToken(function(token) {
-		  	syncClient.updateToken(token);
-		  });
-		}); 
-			
-		syncClient.list('MagicTexters').then(function(list) {
-		  list.on('itemAdded', function(event) {
+    syncClient.on('tokenAboutToExpire', function() {
+      var token = getSyncToken(function(token) {
+        syncClient.updateToken(token);
+      });
+    }); 
+      
+    syncClient.list('MagicTexters').then(function(list) {
+      list.on('itemAdded', function(event) {
         console.log(event.item.index);
-		    insertMagic(event.item);
-		  });
-		});
-	}
+        insertMagic(event.item);
+      });
+    });
+  }
 
-  getSyncToken(function(token) {
-  	startSync(token);
+  getSyncToken(function(responseData) {
+    startSync(responseData.token);
+    
+    $('#number').html(responseData.number)
   });
 
 });

@@ -29,7 +29,10 @@ exports.handler = function(context, event, callback) {
   accessToken.addGrant(syncGrant);
   accessToken.identity = IDENTITY;
   
-  response.setBody({ token: accessToken.toJwt() });
+  response.setBody({ 
+    token: accessToken.toJwt(), 
+    number: context.TWILIO_PHONE_NUMBER
+  });
 
   callback(null, response);
 }
