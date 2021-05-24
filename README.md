@@ -4,6 +4,8 @@ This app lets you demo Twilio's Programmable Messaging with some pizazz :).
 
 In the end, you'll create a live web page that reacts to incoming text messages with a fun animation on the screen. This combines Twilio's SMS product along with our serverless infrastructure to host the page.
 
+Try it yourself at: https://ankur-6728.twil.io/index.html
+
 ![Demo](demo.gif)
 
 ## Pre-requisites
