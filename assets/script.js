@@ -58,7 +58,7 @@ const drawBg = function(ctx, color) {
 };
 
 // Particle Constructor
-const Particle = function(x, y) {
+const Particle = function(x, y, maxSpeed) {
   // X Coordinate
   this.x = x || Math.round(Math.random() * canvas.width);
   // Y Coordinate
@@ -67,8 +67,8 @@ const Particle = function(x, y) {
   this.r = Math.ceil(Math.random() * config.maxParticleSize);
   // Color of the rock, given some randomness
   this.c = colorVariation(colorPalette.matter[Math.floor(Math.random() * colorPalette.matter.length)], true);
-  // Speed of which the rock travels
-  this.s = Math.pow(Math.ceil(Math.random() * config.maxSpeed), .7);
+  // maxSpeed of which the rock travels
+  this.s = Math.pow(Math.ceil(Math.random() * maxSpeed), .7);
   // Direction the Rock flies
   this.d = Math.round(Math.random() * 360);
 };
@@ -115,14 +115,19 @@ const drawParticle = function(x, y, r, c) {
 // Remove particles that aren't on the canvas
 const cleanUpArray = function() {
   particles = particles.filter((p) => {
-    return (p.x > -100 && p.y > -100);
+    if (!(p.x < 0 || p.x > 1000 || p.y < 0 || p.y > 1000)) {
+      return p;
+    }
   });
+  console.log(particles.length);
+  console.log('Cleaning up array')
 };
 
 
-const initParticles = function(numParticles, x, y) {
+const initParticles = function(numParticles, x, y, maxSpeed) {
+  console.log(particles);
   for (let i = 0; i < numParticles; i++) {
-    particles.push(new Particle(x, y));
+    particles.push(new Particle(x, y, maxSpeed));
   }
   particles.forEach((p) => {
     drawParticle(p.x, p.y, p.r, p.c);
@@ -144,9 +149,19 @@ const frame = function() {
   window.requestAnimationFrame(frame);
 };
 
-$(document).ready(function() {
+const repeatParticles = function() {
+  
+  console.log('Drawing some particles')
+  initParticles(20, config.x, config.y, 1);
+  cleanUpArray();
+  return;
+}
 
+$(document).ready(function() {
+  
   frame();
+  setInterval(repeatParticles, 1000)
+
 
   var shownMagics = [];
 
@@ -154,7 +169,7 @@ $(document).ready(function() {
     if (shownMagics.indexOf(magic.index) == -1) {
       shownMagics.push(magic.index);
       cleanUpArray();
-      initParticles(config.particleNumber, config.x, config.y);
+      initParticles(config.particleNumber, config.x, config.y, config.maxSpeed);
       $('.circle-with-text').addClass('end-state');
       $('#button').addClass('end-state');
       $('#waiting').html('<span class="red">' + magic.data.name + '</span>' + ' sent us <span class="red">magic</span>! Who\'s next?');
