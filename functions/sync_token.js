@@ -23,7 +23,8 @@ exports.handler = function(context, event, callback) {
   const accessToken = new AccessToken(
     ACCOUNT_SID,
     API_KEY,
-    API_SECRET
+    API_SECRET,
+    {identity: IDENTITY}
   );
 
   accessToken.addGrant(syncGrant);
